@@ -1,10 +1,10 @@
 %% Toy test:
-N=2000;
+N=200;
 M=14;
 x=nan(M,N);
 x(:,1)=randn(M,1);
-tau=2; a=exp(-1/tau);
-s=2;
+tau=10; a=exp(-1/tau);
+s=5;
 for k=2:N
     x(:,k)=a*x(:,k-1)+s*randn(M,1);
 end
