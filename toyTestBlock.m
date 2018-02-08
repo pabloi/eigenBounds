@@ -1,9 +1,17 @@
 %% Toy test:
 M=25;
-tau=30;
+tau=4;
+tau2=2*tau;
 N=tau*21;
 x=nan(M,N);
-x=(sin(2*pi*[0:N-1]/tau+.5*pi*[0:M-1]'/M + .03*randn(size(x)))) + .5*randn(size(x));
+x=(sin(2*pi*[0:N-1]/tau+.5*pi*[0:M-1]'/M + .0001*randn(size(x)))) + .0001*randn(size(x));
+
+%Non-sinusoidal periodic function:
+x=(sin(2*pi*[0:N-1]/tau+2*pi*[0:M-1]'/M + .001*randn(size(x)))) + ...
+    (sin(2*pi*[0:N-1]/tau2+2*pi*rand(M,1) + .001*randn(size(x)))) + ...
+    + .0001*randn(size(x));
+
+
 
 %%
 aux=x-mean(x,2);
