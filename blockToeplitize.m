@@ -16,26 +16,35 @@ if k*blockSize<N
 end
 
 %Second: do the factorization
-%2a: average across diagonal blocks
-subblock=zeros(blockSize,blockSize,k);
-for j=1:k
-    offsetK=(j-1)*blockSize;
-    for i=1:(k-j+1)
-         offsetRow=(blockSize*(i-1)); %Averaging only along upper triangle, since it is symmetric
-         subblock(:,:,j)= subblock(:,:,j)+C(offsetRow+[1:blockSize],offsetRow+[1:blockSize]+offsetK);
-    end
-    subblock(:,:,j)=subblock(:,:,j)/(k-j+1);
-end
+ %2a: average across diagonal blocks %Following Gao, to get fApprox
+ subblock=zeros(blockSize,blockSize,k);
+ subBlockToeplitz=zeros(blockSize,blockSize,k);
+ for j=1:k
+     offsetK=(j-1)*blockSize;
+     for i=1:(k-j+1)
+          offsetRow=(blockSize*(i-1)); %Averaging only along upper triangle, since it is symmetric
+          subblock(:,:,j)= subblock(:,:,j)+C(offsetRow+[1:blockSize],offsetRow+[1:blockSize]+offsetK);
+     end
+     subblock(:,:,j)=subblock(:,:,j)/(k-j+1);
+     subBlockToeplitz(:,:,j)=toeplitize(subblock(:,:,j));
+ end
+ 
+ %2b: factorize the blocks
+ %figure; imagesc(reshape(subblock,blockSize,blockSize*k));axis equal;
+ subBlockToeplitz=reshape(subBlockToeplitz,blockSize^2,k);
+ 
+%My way: surprisingly, equivalent to Gao's 
+% [a,Ft]=pca(subBlockToeplitz,'Centered','off');
+% Ft=Ft(:,1);
+% a=a(:,1);
 
-%2b: factorize the blocks
-%figure; imagesc(reshape(subblock,blockSize,blockSize*k));axis equal;
-subblock=reshape(subblock,blockSize^2,k);
-[a,F]=pca(subblock,'Centered','off');
-F=F(:,1);
-a=a(:,1);
+%Gao's way: (this seems unoptimal, as it has a preferred order for the factorization)
+g1=subBlockToeplitz(:,1); %Main block
+g2=mean(g1.*subBlockToeplitz)/mean(g1.^2); %Projection onto main block
+a=g2;
+Ft=reshape(g1,blockSize,blockSize);
 
-%2c: toeplitize the main subblock
-[Ft,f]=toeplitize(reshape(F,blockSize,blockSize));
+f=Ft(1,:);
 
 %Third: reconstruct the block-toeplitz matrix
 Ct=nan(size(C));

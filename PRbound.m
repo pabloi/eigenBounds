@@ -3,14 +3,6 @@ function pr=PRbound(autocorr)
 %autocorr is an length N vector, that represents the auto-correlation starting at t=0, and until
 %t=N. It is assumed to be symmetric around 0.
 
-if numel(autocorr)==size(autocorr(:),1); %Vector
-    %pr= 2*numel(autocorr)*autocorr(1)^2 / (2*sum(autocorr.^2));
-
-    %My exact computation:
-    N=numel(autocorr);
-    pr= N / (1 + 2*sum([N-1:-1:1]'.*autocorr(2:end).^2)/(N*autocorr(1)^2));
-else %Matrix, computing the PR directly [should match the PR function]
-   pr=trace(autocorr)^2/norm(autocorr,'fro')^2; 
-end
+pr= 2*numel(autocorr)*autocorr(1)^2 / (2*sum(autocorr.^2));
 
 end
