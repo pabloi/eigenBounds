@@ -1,4 +1,4 @@
-function pr=PRbound(autocorr)
+function pr=PRfromAutocorrApprox(autocorr)
 %Implements Eq. 16 from Gao et al. 2017
 %autocorr is an length N vector, that represents the auto-correlation starting at t=0, and until
 %t=N. It is assumed to be symmetric around 0.

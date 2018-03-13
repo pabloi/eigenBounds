@@ -1,4 +1,4 @@
-function [PR,looseBound]=PRboundPeriodicSeparable(f,a,N)
+function [PR,looseBound]=PRperiodicSeparableMatrix(f,a,N)
 G=sum(f.^2);
 period=numel(f); %If mod(T,2)==0, then f(end) should be 0.
 offset=ceil(period/2);
