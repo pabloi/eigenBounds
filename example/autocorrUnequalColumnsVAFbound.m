@@ -5,21 +5,24 @@ N=1e4;
 M=30;
 X=(randn(N,M)); %M realizations of N-sample white noise
 for j=1:M
-sigma=50*(1+5*abs(randn));
-Ga=exp(-[0:N-1]'/sigma)+.1; %Frequency-space shaping of signal
-%Ga=ones(N,1);% White noise
-Ga(20:20:N)=Ga(20:20:N)+50./sqrt([1:20:N]'); %1/f signal
+sigma=20*(1+5*abs(randn));
+H=exp(-[0:N-1].^2'/(2*sigma.^2))+.1; %Frequency-space shaping of signal
+Ga=ones(N,1);% White noise
+Ga(20:20:N)=Ga(20:20:N)+10./sqrt([1:20:N]'); %1/f signal
+Ga=Ga.*H;
 Ga((N/2)+2:N)=conj(flipud(Ga(2:(N/2)))); %Ensuring a real-valued filter
 %Ga(N/2+1)=0;
-Ga(1)=abs(3*randn); %Adding more DC
+Ga(1)=abs(10*randn); %Adding more DC
 G(:,j)=Ga;
 
 X(:,j)=ifft(fft(X(:,j),[],1).*Ga); %Filtering
 %g=ifft(G(:,j));
 %g=g(1:200); %200-th order FIR approximation;
 end
-X=sqrt(N)*X./sqrt(sum(X.^2,1)); %Normalizing energy per column: this is not needed, but if not done the bounds are trivial for the filters used (the dominant difference between columns is the energy, not their autocorrelations)
-%G=G./sqrt(2*N*sum(X.^2,1));
+X=X./sqrt(sum(X.^2,1)); %Normalizing energy per column: this is not needed, but if not done the bounds are trivial for the filters used (the dominant difference between columns is the energy, not their autocorrelations)
+G=G./sqrt(sum(G.^2,1));
+sqrt(sum(X.^2,1))
+sqrt(sum(abs(G).^2,1))
 %% Plots
 figure('Units','Normalized','OuterPosition',[0 0 1 1])
 subplot(2,2,1) %Data
