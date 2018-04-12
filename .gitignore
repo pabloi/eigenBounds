@@ -1,2 +1,8 @@
 
 *.m~
+
+data/allTS\.mat
+
+data/allTS2\.mat
+
+data/weirdness\.mat
