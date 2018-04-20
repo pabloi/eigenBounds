@@ -3,13 +3,13 @@ clc
 
 Nsub=16;
 dataDir='/datadump/rawData/Exp0001/matData/HPF30/';
-condNames={'TM base','Adapt','Post'}; %Retrieving late data for these three conditions
+condNames={'TM base','Adapt','Wash'}; %Retrieving late data for these three conditions
 
 for i=1:Nsub
     i
 	%Load
     aux=sprintf('%0.2f',i/100);
-    load([dataDir 'P00' aux(3:end) '.mat'])
+    load([dataDir 'C00' aux(3:end) '.mat'])
     for k=1:3
         %Get last trial in condition
         t=expData.metaData.getTrialsInCondition(condNames{k});
@@ -28,4 +28,4 @@ for i=1:Nsub
 end
 
 %% Save
-save patientData allEMG allEvents allTS
+save controlData allEMG allEvents allTS
