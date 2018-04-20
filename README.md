@@ -9,3 +9,9 @@ Work in progress.
 (periodic signals naturaly have a dimensionality bound, but they do not fit within the given framework)
 3) See if results can be extended to  circulant matrices 
 (i.e. periodic auto-correlations which do not taper off as time goes to infinity)
+
+# TO DO on psd matrix bound
+1) Given a lower bound on sum of largest eigenvalues and rank, create the best possible bound -> DONE
+2) Given a lower bound on sum of largest, and an upper bound on sum of lowest, create best possible bound: i.e. take max(lowerBound,tr(C)-upperBound), and if result is not a concave bound (it need not be), then generate the minimum cocave curve that is above the max() curve.
+
+
