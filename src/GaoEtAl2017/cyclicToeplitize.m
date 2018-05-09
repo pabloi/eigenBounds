@@ -18,3 +18,5 @@ end
 f=t;
 
 Ct=toeplitz(f,r);
+
+%Alternative computation: call circulantize()

@@ -9,3 +9,5 @@ end
 Ct=toeplitz(t);
 f=t;
 end
+
+%Computation through efficient circulantize(): toeplitizev2()
