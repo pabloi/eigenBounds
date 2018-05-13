@@ -1,5 +1,9 @@
 %% Example of Fourier-based bound for autocorrelated data
 close all
+%TODO: generate data NOT by multiplying  white noise with the filter in
+%frequency space, but by generating the frequency representation directly:
+%this way we can have the same expected value, but have fixed variance
+%(current version has signal-dependent noise, proportional)
 %% Construct: a data matrix with independent but autocorrelated columns
 N=1e4;
 M=30;
